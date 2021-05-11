@@ -4,18 +4,10 @@ package com.antonyudin.faces.csp;
 
 import ${jee.inject}.Inject;
 
-import ${jee.servlet}.http.HttpServletRequest;
-import ${jee.servlet}.http.HttpServletResponse;
-import ${jee.servlet}.http.HttpServletResponseWrapper;
 import ${jee.servlet}.http.HttpFilter;
 
-import ${jee.servlet}.ServletOutputStream;
 import ${jee.servlet}.ServletException;
-import ${jee.servlet}.FilterChain;
 import ${jee.servlet}.FilterConfig;
-import ${jee.servlet}.WriteListener;
-
-import ${jee.servlet}.annotation.WebFilter;
 
 
 public class AbstractFilter extends HttpFilter {
