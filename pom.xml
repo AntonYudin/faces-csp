@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+	<!-- copyright (c) 2021 Anton Yudin -->
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.antonyudin.faces.csp</groupId>
+	<version>1.0</version>
+	<artifactId>project</artifactId>
+	<packaging>pom</packaging>
+
+	<name>Faces Content Security Policy Support</name>
+	<description>Faces Content Security Policy</description>
+	<url>https://github.com/AntonYudin/faces-csp</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Anton Yudin</name>
+			<email>dev@antonyudin.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/AntonYudin/faces-csp.git</connection>
+		<developerConnection>scm:git:git://github.com/AntonYudin/faces-csp.git</developerConnection>
+		<url>https://github.com/AntonYudin/faces-csp</url>
+	</scm>
+
+
+	<modules>
+		<module>csp</module>
+	</modules>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+
+		<maven.jar.plugin.version>3.1.1</maven.jar.plugin.version>
+		<maven.ear.plugin.version>3.0.1</maven.ear.plugin.version>
+		<maven.ejb.plugin.version>3.0.1</maven.ejb.plugin.version>
+		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+		<maven.source.plugin.version>3.0.1</maven.source.plugin.version>
+		<maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
+		<maven.javadoc.plugin.html.version>-html5</maven.javadoc.plugin.html.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<profiles>
+
+		<profile>
+
+			<id>jakarta</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<properties>
+
+				<jee.api.groupId>jakarta.platform</jee.api.groupId>
+				<jee.api.artifactId>jakarta.jakartaee-api</jee.api.artifactId>
+				<jee.api.version>9.0.0</jee.api.version>
+
+				<jee.enterprise>jakarta.enterprise</jee.enterprise>
+				<jee.inject>jakarta.inject</jee.inject>
+				<jee.annotation>jakarta.annotation</jee.annotation>
+				<jee.servlet>jakarta.servlet</jee.servlet>
+				<jee.faces>jakarta.faces</jee.faces>
+				<jee.ejb>jakarta.ejb</jee.ejb>
+				<jee.xml>jakarta.xml</jee.xml>
+				<jee.ws>jakarta.ws</jee.ws>
+				<jee.interceptor>jakarta.interceptor</jee.interceptor>
+
+				<jee.naming>javax.naming</jee.naming>
+
+			</properties>
+		</profile>
+
+		<profile>
+
+			<id>jee</id>
+
+			<properties>
+
+				<jee.api.groupId>javax</jee.api.groupId>
+				<jee.api.artifactId>javaee-api</jee.api.artifactId>
+				<jee.api.version>8.0.1</jee.api.version>
+
+				<jee.enterprise>javax.enterprise</jee.enterprise>
+				<jee.inject>javax.inject</jee.inject>
+				<jee.annotation>javax.annotation</jee.annotation>
+				<jee.servlet>javax.servlet</jee.servlet>
+				<jee.faces>javax.faces</jee.faces>
+				<jee.ejb>javax.ejb</jee.ejb>
+				<jee.xml>javax.xml</jee.xml>
+				<jee.ws>javax.ws</jee.ws>
+				<jee.interceptor>javax.interceptor</jee.interceptor>
+
+				<jee.naming>javax.naming</jee.naming>
+
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+					<scope>provided</scope>
+					<version>2.3.1</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+	</profiles>
+
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>templating-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<id>filter-src</id>
+						<goals>
+							<goal>filter-sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+		<pluginManagement>
+
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<configuration>
+						<unzipCommand>/usr/bin/unzip -o > err.txt</unzipCommand>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<compilerArgument>-Xlint:all</compilerArgument>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+							<configuration>
+								<gpgArguments>
+									<arg>--pinentry-mode</arg>
+									<arg>loopback</arg>
+								</gpgArguments> 
+								<!--
+								<passphraseServerId>${gpg.keyname}</passphraseServerId>
+								-->
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+			</plugins>
+
+		</pluginManagement>
+
+	</build>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<dependency>
+				<groupId>${jee.api.groupId}</groupId>
+				<artifactId>${jee.api.artifactId}</artifactId>
+				<version>${jee.api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>2.2.20</version>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+</project>
+

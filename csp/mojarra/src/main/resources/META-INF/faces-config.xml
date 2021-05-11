@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+	version="2.3"
+>
+
+
+	<render-kit>
+
+		<client-behavior-renderer>
+			<client-behavior-renderer-type>javax.faces.behavior.Ajax</client-behavior-renderer-type>
+			<client-behavior-renderer-class>com.antonyudin.faces.csp.mojarra.AjaxBehaviorRenderer</client-behavior-renderer-class>
+		</client-behavior-renderer>
+
+		<renderer>
+			<component-family>javax.faces.Command</component-family>
+			<renderer-type>javax.faces.Link</renderer-type>
+			<renderer-class>com.antonyudin.faces.csp.mojarra.CommandLinkRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>javax.faces.Command</component-family>
+			<renderer-type>javax.faces.Button</renderer-type>
+			<renderer-class>com.antonyudin.faces.csp.mojarra.ButtonRenderer</renderer-class>
+		</renderer>
+
+	</render-kit>
+
+</faces-config>
+
