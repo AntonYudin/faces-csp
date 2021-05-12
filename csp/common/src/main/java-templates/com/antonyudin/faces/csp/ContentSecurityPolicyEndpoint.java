@@ -1,16 +1,9 @@
 
-/*
- * vim: set nowrap:
- *
- */
-
 package com.antonyudin.faces.csp;
 
 
 import java.util.Base64;
 import java.util.Random;
-
-import java.time.LocalDateTime;
 
 import ${jee.servlet}.ServletException;
 
@@ -19,8 +12,6 @@ import ${jee.servlet}.annotation.WebServlet;
 import ${jee.servlet}.http.HttpServlet;
 import ${jee.servlet}.http.HttpServletRequest;
 import ${jee.servlet}.http.HttpServletResponse;
-
-import ${jee.faces}.context.FacesContext;
 
 
 @WebServlet(

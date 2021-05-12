@@ -1,9 +1,4 @@
 
-/*
- * vim: set nowrap:
- *
- */
-
 package com.antonyudin.faces.csp;
 
 

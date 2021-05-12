@@ -2,21 +2,12 @@
 package com.antonyudin.faces.csp;
 
 
-import java.util.Base64;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Collection;
-import java.util.ArrayList;
-
-import java.security.MessageDigest;
-
-import java.nio.charset.StandardCharsets;
-
-
 public interface ContentSecurityPolicyGenerator {
 
 	public static class Header implements java.io.Serializable {
+//	public record Header(
+//		String name, String value
+//	) {
 
 		public Header(final String name, final String value) {
 			this.name = name;
@@ -36,6 +27,7 @@ public interface ContentSecurityPolicyGenerator {
 		public String getValue() {
 			return value;
 		}
+
 	}
 
 

@@ -2,12 +2,6 @@
 package com.antonyudin.faces.csp;
 
 
-import java.util.Date;
-import java.util.TimeZone;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
 import ${jee.faces}.component.FacesComponent;
 import ${jee.faces}.component.UINamingContainer;
 

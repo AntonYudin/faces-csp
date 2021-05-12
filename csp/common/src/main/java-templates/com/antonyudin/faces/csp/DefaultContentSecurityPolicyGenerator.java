@@ -1,14 +1,8 @@
 
-/*
- * vim: set nowrap:
- *
- */
-
 package com.antonyudin.faces.csp;
 
 
 import java.util.Base64;
-import java.util.Collection;
 
 import java.security.MessageDigest;
 

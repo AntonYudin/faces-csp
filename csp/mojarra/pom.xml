@@ -26,11 +26,19 @@
 			<artifactId>${jee.api.artifactId}</artifactId>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>jakarta.faces</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.antonyudin.faces.csp</groupId>
