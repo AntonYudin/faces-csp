@@ -113,6 +113,7 @@
 				<jee.interceptor>javax.interceptor</jee.interceptor>
 
 				<jee.naming>javax.naming</jee.naming>
+				<jee.el>javax.el</jee.el>
 
 			</properties>
 

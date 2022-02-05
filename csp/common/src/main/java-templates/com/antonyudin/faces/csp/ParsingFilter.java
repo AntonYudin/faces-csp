@@ -57,7 +57,7 @@ public class ParsingFilter extends AbstractFilter {
 			logger.fine(() -> "setPolicy()");
 
 			final var header = generator.generate(
-				policy
+				policy, getEnvironment(request)
 			);
 
 			if (header != null)

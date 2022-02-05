@@ -2,6 +2,7 @@
 package com.antonyudin.faces.csp.mojarra;
 
 
+
 import ${jee.inject}.Inject;
 
 import ${jee.servlet}.http.HttpServletRequest;
@@ -63,7 +64,7 @@ public class Filter extends AbstractFilter {
 			logger.fine(() -> "setPolicy()");
 
 			final var header = generator.generate(
-				policy
+				policy, getEnvironment(request)
 			);
 
 			if (header != null)
@@ -121,6 +122,7 @@ public class Filter extends AbstractFilter {
 							try {
 								setPolicy();
 							} catch (java.lang.Exception exception) {
+								logger.log(java.util.logging.Level.SEVERE, exception.toString(), exception);
 								throw new java.io.IOException(exception);
 							}
 						}
@@ -191,6 +193,7 @@ public class Filter extends AbstractFilter {
 			r.finish();
 
 		} catch (java.lang.Exception exception) {
+			logger.log(java.util.logging.Level.SEVERE, exception.toString(), exception);
 			throw new ServletException(exception);
 		}
 

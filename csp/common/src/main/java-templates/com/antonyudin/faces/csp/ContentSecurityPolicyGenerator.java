@@ -2,6 +2,9 @@
 package com.antonyudin.faces.csp;
 
 
+import java.util.Map;
+
+
 public interface ContentSecurityPolicyGenerator {
 
 	public static class Header implements java.io.Serializable {
@@ -31,7 +34,7 @@ public interface ContentSecurityPolicyGenerator {
 	}
 
 
-	public Header generate(final ContentSecurityPolicy policy) throws java.lang.Exception;
+	public Header generate(final ContentSecurityPolicy policy, final Map<String, Object> values) throws java.lang.Exception;
 
 }
 

@@ -3,10 +3,17 @@ package com.antonyudin.faces.csp;
 
 
 import java.util.Base64;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 import java.security.MessageDigest;
 
 import java.nio.charset.StandardCharsets;
+
+import ${jee.el}.ELManager;
+import ${jee.el}.ValueExpression;
+import ${jee.el}.StandardELContext;
 
 
 public class DefaultContentSecurityPolicyGenerator implements ContentSecurityPolicyGenerator, java.io.Serializable {
@@ -19,12 +26,14 @@ public class DefaultContentSecurityPolicyGenerator implements ContentSecurityPol
 	public static ContentSecurityPolicyGenerator newInstance(
 		final boolean enabled,
 		final boolean reportOnly,
-		final String template
-	) {
+		final String template,
+		final List<String> contentToHash
+	) throws java.lang.Exception {
 		return new DefaultContentSecurityPolicyGenerator(
 			enabled,
 			reportOnly,
-			template
+			template,
+			contentToHash
 		);
 	}
 
@@ -32,22 +41,32 @@ public class DefaultContentSecurityPolicyGenerator implements ContentSecurityPol
 	private final boolean enabled;
 	private final boolean reportOnly;
 	private final String template;
+	private final List<String> contentToHash;
 
 
 	protected DefaultContentSecurityPolicyGenerator(
 		final boolean enabled,
 		final boolean reportOnly,
-		final String template
-	) {
+		final String template,
+		final List<String> contentToHash
+	) throws java.lang.Exception {
 		logger.info("DefaultContentSecurityPolicyGenerator(" + enabled + ", " + reportOnly + ", " + template + ")");
 		this.enabled = enabled;
 		this.reportOnly = reportOnly;
 		this.template = template;
+		this.contentToHash = contentToHash;
+		valueExpression = elManager.getExpressionFactory().createValueExpression(
+			elManager.getELContext(), template, String.class
+		);
 	}
 
 
+	private final ELManager elManager = new ELManager();
+	private final ValueExpression valueExpression;
+
+
 	@Override
-	public Header generate(final ContentSecurityPolicy policy) throws java.lang.Exception {
+	public Header generate(final ContentSecurityPolicy policy, final Map<String, Object> values) throws java.lang.Exception {
 
 		if (!enabled)
 			return null;
@@ -55,19 +74,36 @@ public class DefaultContentSecurityPolicyGenerator implements ContentSecurityPol
 		if ((template == null) || (template.trim().length() <= 0))
 			return null;
 
-		final var result = new StringBuilder();
+		if (contentToHash != null) {
+			for (var content: contentToHash)
+				policy.addInline(content);
+		}
 
-		result.append(template);
+
+		final var elContext = new StandardELContext(elManager.getExpressionFactory());
+
+		final var resolver = elContext.getELResolver();
+
+		resolver.setValue(elContext, null, "env", values);
+
+//		final var result = new StringBuilder();
+
+//		result.append(template);
 
 		if (!policy.isUnsafeInline()) {
 
 			final var nonce = policy.getNonce();
 
-			substitute(result, "${nonce}", (nonce != null? "'nonce-" + nonce + "'": ""));
+			resolver.setValue(elContext, null, "nonce", "'nonce-" + nonce + "'");
 
-			logger.fine(() -> "with nonce: " + result);
+//			substitute(result, "${nonce}", (nonce != null? "'nonce-" + nonce + "'": ""));
+
+//			logger.fine(() -> "with nonce: " + result);
 		} else {
-			substitute(result, "${nonce}", "'unsafe-inline'");
+
+			resolver.setValue(elContext, null, "nonce", "'unsafe-inline'");
+
+//			substitute(result, "${nonce}", "'unsafe-inline'");
 		}
 
 
@@ -103,14 +139,36 @@ public class DefaultContentSecurityPolicyGenerator implements ContentSecurityPol
 				}
 			}
 
-			substitute(result, "${hashes}", h.toString());
+			resolver.setValue(elContext, null, "hashes", h.toString());
+
+//			substitute(result, "${hashes}", h.toString());
 		
-			logger.fine(() -> "with hashes: " + result);
+//			logger.fine(() -> "with hashes: " + result);
 		} else {
-			substitute(result, "${hashes}", "");
+
+			resolver.setValue(elContext, null, "hashes", "");
+
+//			substitute(result, "${hashes}", "");
 		}
 
+		logger.fine("getting value ...");
+
+		final var result = new StringBuilder(String.class.cast(valueExpression.getValue(elContext)));
+
+		for (;;) {
+			final var index = result.indexOf("\t");
+
+			if (index < 0)
+				break;
+
+			result.deleteCharAt(index);
+		}
+
+
+		logger.fine(() -> "result: [" + result + "]");
+
 		if (result.length() > 0) {
+
 			return (
 				new Header(
 					reportOnly?
